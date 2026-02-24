@@ -1,0 +1,1895 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Gorontalo — Serambi Madinah</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,300;0,400;0,700;1,300;1,400&family=Jost:wght@300;400;500&display=swap"
+        rel="stylesheet" />
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        :root {
+            --transition: 0.5s cubic-bezier(.4, 0, .2, 1);
+        }
+
+        [data-theme="dark"] {
+            --bg: #111110;
+            --bg2: #1a1a18;
+            --surface: rgba(255, 255, 255, 0.05);
+            --surface2: rgba(255, 255, 255, 0.09);
+            --border: rgba(255, 255, 255, 0.10);
+            --border2: rgba(255, 255, 255, 0.18);
+            --text: #e8e4dc;
+            --text2: rgba(232, 228, 220, 0.55);
+            --text3: rgba(232, 228, 220, 0.35);
+            --accent: #c8a96e;
+            --accent2: #8fa68a;
+            --accent3: #a07858;
+            --shadow: rgba(0, 0, 0, 0.5);
+            --nav-bg: rgba(17, 17, 16, 0.75);
+            --glass: rgba(17, 17, 16, 0.4);
+            --blur: blur(24px) saturate(160%);
+            --blob1: rgba(139, 120, 80, 0.12);
+            --blob2: rgba(100, 120, 90, 0.10);
+            --blob3: rgba(120, 90, 70, 0.08);
+        }
+
+        [data-theme="light"] {
+            --bg: #f5f2ec;
+            --bg2: #edeae3;
+            --surface: rgba(255, 255, 255, 0.55);
+            --surface2: rgba(255, 255, 255, 0.75);
+            --border: rgba(0, 0, 0, 0.08);
+            --border2: rgba(0, 0, 0, 0.14);
+            --text: #1c1b19;
+            --text2: rgba(28, 27, 25, 0.58);
+            --text3: rgba(28, 27, 25, 0.35);
+            --accent: #8a6a30;
+            --accent2: #567050;
+            --accent3: #7a5030;
+            --shadow: rgba(0, 0, 0, 0.12);
+            --nav-bg: rgba(245, 242, 236, 0.78);
+            --glass: rgba(245, 242, 236, 0.45);
+            --blur: blur(24px) saturate(160%);
+            --blob1: rgba(180, 155, 100, 0.18);
+            --blob2: rgba(130, 160, 110, 0.12);
+            --blob3: rgba(160, 120, 80, 0.12);
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            font-family: 'Jost', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+            transition: background var(--transition), color var(--transition);
+            cursor: none;
+        }
+
+        /* ---- CURSOR ---- */
+        .cur {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width .3s, height .3s, opacity .3s
+        }
+
+        .cur-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent);
+            transition: background .3s
+        }
+
+        .cur-ring {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            border: 1.5px solid rgba(200, 169, 110, 0.5);
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 9998;
+            transform: translate(-50%, -50%);
+            transition: transform .15s ease-out
+        }
+
+        /* ---- BG ---- */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            background: var(--bg);
+            transition: background var(--transition);
+        }
+
+        .blob {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(90px);
+            pointer-events: none;
+            z-index: -1;
+            animation: blobFloat ease-in-out infinite alternate
+        }
+
+        .b1 {
+            width: 500px;
+            height: 500px;
+            background: var(--blob1);
+            top: -10%;
+            left: -10%;
+            animation-duration: 20s
+        }
+
+        .b2 {
+            width: 380px;
+            height: 380px;
+            background: var(--blob2);
+            bottom: 5%;
+            right: -8%;
+            animation-duration: 26s;
+            animation-delay: -8s
+        }
+
+        .b3 {
+            width: 300px;
+            height: 300px;
+            background: var(--blob3);
+            top: 50%;
+            left: 40%;
+            animation-duration: 18s;
+            animation-delay: -4s
+        }
+
+        @keyframes blobFloat {
+            from {
+                transform: translate(0, 0) scale(1)
+            }
+
+            to {
+                transform: translate(20px, 30px) scale(1.1)
+            }
+        }
+
+        /* ---- NAV ---- */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 56px;
+            height: 68px;
+            background: var(--nav-bg);
+            backdrop-filter: var(--blur);
+            -webkit-backdrop-filter: var(--blur);
+            border-bottom: 1px solid var(--border);
+            transition: background var(--transition), border-color var(--transition);
+        }
+
+        .nav-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            font-weight: 400;
+            color: var(--accent);
+            letter-spacing: .05em;
+            text-decoration: none;
+        }
+
+        .nav-logo small {
+            font-family: 'Jost', sans-serif;
+            font-size: .65rem;
+            font-weight: 300;
+            letter-spacing: .2em;
+            text-transform: uppercase;
+            color: var(--text2);
+            display: block;
+            margin-top: 2px
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 36px
+        }
+
+        nav ul a {
+            text-decoration: none;
+            color: var(--text2);
+            font-size: .75rem;
+            letter-spacing: .15em;
+            text-transform: uppercase;
+            transition: color .3s;
+            position: relative
+        }
+
+        nav ul a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: var(--accent);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform .3s
+        }
+
+        nav ul a:hover {
+            color: var(--accent)
+        }
+
+        nav ul a:hover::after {
+            transform: scaleX(1);
+            transform-origin: left
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 16px
+        }
+
+        /* Theme toggle */
+        .theme-toggle {
+            width: 46px;
+            height: 26px;
+            border-radius: 13px;
+            background: var(--surface2);
+            border: 1px solid var(--border2);
+            cursor: none;
+            position: relative;
+            transition: background .4s, border-color .4s;
+            flex-shrink: 0;
+        }
+
+        .theme-toggle::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--accent);
+            transition: transform .4s cubic-bezier(.68, -0.55, .27, 1.55), background .4s;
+        }
+
+        [data-theme="light"] .theme-toggle::after {
+            transform: translateX(20px)
+        }
+
+        .theme-icons {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 6px;
+            pointer-events: none
+        }
+
+        .theme-icons span {
+            font-size: .6rem;
+            line-height: 1;
+            transition: opacity .3s
+        }
+
+        .icon-moon {
+            opacity: 1
+        }
+
+        [data-theme="light"] .icon-moon {
+            opacity: .3
+        }
+
+        .icon-sun {
+            opacity: .3
+        }
+
+        [data-theme="light"] .icon-sun {
+            opacity: 1
+        }
+
+        /* ---- HERO ---- */
+        #hero {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: 0;
+            padding: 100px 0 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-left {
+            padding: 80px 56px 80px 56px
+        }
+
+        .hero-eyebrow {
+            font-size: .7rem;
+            letter-spacing: .3em;
+            text-transform: uppercase;
+            color: var(--accent2);
+            margin-bottom: 20px;
+            opacity: 0;
+            animation: fadeUp .8s .3s forwards
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 7vw, 6rem);
+            font-weight: 300;
+            line-height: 1.0;
+            margin-bottom: 28px;
+            opacity: 0;
+            animation: fadeUp 1s .5s forwards;
+        }
+
+        .hero-title em {
+            font-style: italic;
+            color: var(--accent)
+        }
+
+        .hero-desc {
+            font-size: .95rem;
+            line-height: 1.9;
+            color: var(--text2);
+            max-width: 420px;
+            margin-bottom: 40px;
+            opacity: 0;
+            animation: fadeUp 1s .7s forwards
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: fadeUp 1s .9s forwards
+        }
+
+        .btn-p {
+            padding: 13px 32px;
+            border-radius: 100px;
+            background: var(--accent);
+            color: var(--bg);
+            border: none;
+            font-family: 'Jost', sans-serif;
+            font-size: .78rem;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            text-decoration: none;
+            cursor: none;
+            transition: transform .3s, box-shadow .3s, background .3s;
+            box-shadow: 0 4px 20px color-mix(in srgb, var(--accent) 40%, transparent);
+        }
+
+        .btn-p:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 32px color-mix(in srgb, var(--accent) 55%, transparent)
+        }
+
+        .btn-o {
+            padding: 13px 32px;
+            border-radius: 100px;
+            background: transparent;
+            color: var(--text);
+            border: 1px solid var(--border2);
+            font-family: 'Jost', sans-serif;
+            font-size: .78rem;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            text-decoration: none;
+            cursor: none;
+            backdrop-filter: blur(10px);
+            transition: transform .3s, border-color .3s, background .3s, color .3s;
+        }
+
+        .btn-o:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent);
+            background: color-mix(in srgb, var(--accent) 10%, transparent);
+            color: var(--accent)
+        }
+
+        .hero-right {
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            animation: fadeIn 1.2s .4s forwards;
+        }
+
+        .hero-right img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            filter: saturate(0.7) contrast(1.05)
+        }
+
+        [data-theme="light"] .hero-right img {
+            filter: saturate(0.8) contrast(1.02) brightness(1.05)
+        }
+
+        .hero-right::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to right, var(--bg) 0%, transparent 30%);
+            transition: background var(--transition);
+        }
+
+        .scroll-ind {
+            position: absolute;
+            bottom: 40px;
+            left: 56px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            opacity: 0;
+            animation: fadeUp 1s 1.2s forwards;
+        }
+
+        .scroll-ind span {
+            font-size: .62rem;
+            letter-spacing: .25em;
+            text-transform: uppercase;
+            color: var(--text3)
+        }
+
+        .scroll-line {
+            width: 40px;
+            height: 1px;
+            background: linear-gradient(to right, var(--accent), transparent);
+            animation: scLine 2s ease-in-out infinite
+        }
+
+        @keyframes scLine {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scaleX(1)
+            }
+
+            50% {
+                opacity: .3;
+                transform: scaleX(.4)
+            }
+        }
+
+        /* ---- SECTION BASE ---- */
+        .section-wrap {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 100px 56px
+        }
+
+        .section-kicker {
+            font-size: .68rem;
+            letter-spacing: .3em;
+            text-transform: uppercase;
+            color: var(--accent2);
+            margin-bottom: 10px
+        }
+
+        .section-h {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            font-weight: 300;
+            line-height: 1.15;
+            margin-bottom: 14px;
+        }
+
+        .section-h em {
+            font-style: italic;
+            color: var(--accent)
+        }
+
+        .section-sub {
+            font-size: .9rem;
+            color: var(--text2);
+            line-height: 1.8;
+            max-width: 520px;
+            margin-bottom: 56px
+        }
+
+        .divider {
+            width: 48px;
+            height: 1px;
+            background: var(--accent);
+            margin: 20px 0 48px;
+            opacity: .5
+        }
+
+        /* Glass card */
+        .gc {
+            background: var(--surface);
+            backdrop-filter: var(--blur);
+            -webkit-backdrop-filter: var(--blur);
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 24px var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+            transition: background .4s, border-color .4s, box-shadow .4s, transform .4s;
+        }
+
+        [data-theme="light"] .gc {
+            box-shadow: 0 4px 24px var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+        }
+
+        .gc:hover {
+            background: var(--surface2);
+            border-color: var(--border2);
+            box-shadow: 0 12px 40px var(--shadow);
+        }
+
+        /* ---- ABOUT ---- */
+        #tentang .grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 48px;
+            align-items: start
+        }
+
+        .about-text {
+            font-size: .92rem;
+            line-height: 1.9;
+            color: var(--text2);
+            margin-bottom: 16px
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-top: 8px
+        }
+
+        .stat {
+            padding: 28px 20px;
+            border-radius: 18px;
+            text-align: center
+        }
+
+        .stat-n {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            font-weight: 300;
+            color: var(--accent);
+            line-height: 1
+        }
+
+        .stat-l {
+            font-size: .66rem;
+            letter-spacing: .15em;
+            text-transform: uppercase;
+            color: var(--text3);
+            margin-top: 6px
+        }
+
+        /* ---- WISATA ---- */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px
+        }
+
+        .card {
+            border-radius: 20px;
+            overflow: hidden;
+            cursor: none;
+            transition: transform .45s cubic-bezier(.23, 1, .32, 1), box-shadow .4s
+        }
+
+        .card:hover {
+            transform: translateY(-10px) scale(1.01);
+            box-shadow: 0 28px 64px var(--shadow)
+        }
+
+        .card-img-wrap {
+            position: relative;
+            height: 200px;
+            overflow: hidden
+        }
+
+        .card-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform .6s;
+            filter: saturate(.75)
+        }
+
+        [data-theme="light"] .card-img-wrap img {
+            filter: saturate(.85) brightness(1.02)
+        }
+
+        .card:hover .card-img-wrap img {
+            transform: scale(1.07)
+        }
+
+        .card-img-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, var(--bg) 0%, transparent 60%);
+            pointer-events: none;
+            transition: background var(--transition)
+        }
+
+        .card-body {
+            padding: 22px 24px 26px
+        }
+
+        .card-tag {
+            font-size: .62rem;
+            letter-spacing: .18em;
+            text-transform: uppercase;
+            color: var(--accent2);
+            margin-bottom: 6px
+        }
+
+        .card-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-weight: 400;
+            margin-bottom: 8px;
+            color: var(--text)
+        }
+
+        .card-desc {
+            font-size: .8rem;
+            color: var(--text2);
+            line-height: 1.7
+        }
+
+        /* ---- BUDAYA ---- */
+        .budaya-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px
+        }
+
+        .budaya-card {
+            border-radius: 20px;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            cursor: none;
+            transition: transform .4s, box-shadow .4s
+        }
+
+        .budaya-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 50px var(--shadow)
+        }
+
+        .budaya-card-img {
+            height: 100%;
+            min-height: 180px;
+            overflow: hidden;
+            position: relative
+        }
+
+        .budaya-card-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform .6s;
+            filter: saturate(.7)
+        }
+
+        [data-theme="light"] .budaya-card-img img {
+            filter: saturate(.85)
+        }
+
+        .budaya-card:hover .budaya-card-img img {
+            transform: scale(1.08)
+        }
+
+        .budaya-card-body {
+            padding: 28px
+        }
+
+        .budaya-icon {
+            font-size: 1.6rem;
+            margin-bottom: 10px
+        }
+
+        .budaya-card-body h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            font-weight: 400;
+            color: var(--accent);
+            margin-bottom: 8px
+        }
+
+        .budaya-card-body p {
+            font-size: .8rem;
+            color: var(--text2);
+            line-height: 1.7
+        }
+
+        /* ---- KULINER ---- */
+        .kuliner-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px
+        }
+
+        .food-card {
+            border-radius: 20px;
+            overflow: hidden;
+            cursor: none;
+            transition: transform .4s, box-shadow .4s
+        }
+
+        .food-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px var(--shadow)
+        }
+
+        .food-img-wrap {
+            height: 170px;
+            overflow: hidden;
+            position: relative
+        }
+
+        .food-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform .6s;
+            filter: saturate(.75)
+        }
+
+        [data-theme="light"] .food-img-wrap img {
+            filter: saturate(.85) brightness(1.02)
+        }
+
+        .food-card:hover .food-img-wrap img {
+            transform: scale(1.08)
+        }
+
+        .food-img-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, var(--bg) 0%, transparent 55%);
+            pointer-events: none;
+            transition: background var(--transition)
+        }
+
+        .food-body {
+            padding: 20px 22px 24px
+        }
+
+        .food-body h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.15rem;
+            font-weight: 400;
+            color: var(--accent);
+            margin-bottom: 6px
+        }
+
+        .food-body p {
+            font-size: .78rem;
+            color: var(--text2);
+            line-height: 1.7
+        }
+
+        /* ---- PETA ---- */
+        .map-wrap {
+            border-radius: 24px;
+            overflow: hidden;
+            height: 420px;
+            margin-top: 0
+        }
+
+        .map-wrap iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+            filter: grayscale(0.3) contrast(1.05)
+        }
+
+        [data-theme="light"] .map-wrap iframe {
+            filter: grayscale(0.1) contrast(1)
+        }
+
+        /* ---- FOOTER ---- */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 48px 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+            background: var(--bg2);
+            transition: background var(--transition), border-color var(--transition);
+        }
+
+        footer p {
+            font-size: .75rem;
+            color: var(--text3);
+            letter-spacing: .06em
+        }
+
+        footer span {
+            color: var(--accent)
+        }
+
+        /* ---- CHAT FAB ---- */
+        #chat-fab {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--accent);
+            border: none;
+            cursor: none;
+            z-index: 300;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 24px color-mix(in srgb, var(--accent) 45%, transparent);
+            transition: transform .3s, box-shadow .3s, background .4s;
+        }
+
+        #chat-fab:hover {
+            transform: scale(1.12) rotate(8deg);
+            box-shadow: 0 10px 36px color-mix(in srgb, var(--accent) 65%, transparent)
+        }
+
+        #chat-fab svg {
+            width: 22px;
+            height: 22px;
+            color: var(--bg)
+        }
+
+        .fab-badge {
+            position: absolute;
+            top: -1px;
+            right: -1px;
+            width: 13px;
+            height: 13px;
+            background: #e07a5f;
+            border-radius: 50%;
+            border: 2px solid var(--bg);
+            animation: fabPulse 2s infinite;
+        }
+
+        @keyframes fabPulse {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(224, 122, 95, .6)
+            }
+
+            50% {
+                box-shadow: 0 0 0 7px rgba(224, 122, 95, 0)
+            }
+        }
+
+        /* ---- CHAT WINDOW ---- */
+        #chat-window {
+            position: fixed;
+            bottom: 104px;
+            right: 32px;
+            width: 380px;
+            max-height: 570px;
+            border-radius: 24px;
+            display: flex;
+            flex-direction: column;
+            z-index: 300;
+            transform: scale(.88) translateY(16px);
+            transform-origin: bottom right;
+            opacity: 0;
+            pointer-events: none;
+            transition: transform .45s cubic-bezier(.23, 1, .32, 1), opacity .4s;
+            background: var(--glass);
+            backdrop-filter: blur(32px) saturate(200%);
+            -webkit-backdrop-filter: blur(32px) saturate(200%);
+            border: 1px solid var(--border2);
+            box-shadow: 0 24px 60px var(--shadow), inset 0 1px 0 rgba(255, 255, 255, .08);
+            overflow: hidden;
+        }
+
+        #chat-window.open {
+            transform: scale(1) translateY(0);
+            opacity: 1;
+            pointer-events: all
+        }
+
+        .chat-header {
+            padding: 18px 22px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border);
+            background: color-mix(in srgb, var(--accent) 12%, transparent);
+        }
+
+        .chat-header-l {
+            display: flex;
+            align-items: center;
+            gap: 12px
+        }
+
+        .chat-av {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .chat-hname {
+            font-size: .9rem;
+            font-weight: 500;
+            color: var(--text)
+        }
+
+        .chat-hstatus {
+            font-size: .68rem;
+            color: var(--accent2);
+            margin-top: 2px
+        }
+
+        .chat-close {
+            background: none;
+            border: none;
+            color: var(--text3);
+            cursor: none;
+            font-size: 1.1rem;
+            transition: color .2s;
+            padding: 4px
+        }
+
+        .chat-close:hover {
+            color: var(--text)
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            scrollbar-width: thin;
+            scrollbar-color: var(--border) transparent;
+        }
+
+        .chat-messages::-webkit-scrollbar {
+            width: 3px
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: var(--border2);
+            border-radius: 2px
+        }
+
+        .msg {
+            display: flex;
+            gap: 8px;
+            max-width: 88%
+        }
+
+        .msg.user {
+            align-self: flex-end;
+            flex-direction: row-reverse
+        }
+
+        .msg-bubble {
+            padding: 11px 15px;
+            border-radius: 14px;
+            font-size: .82rem;
+            line-height: 1.6
+        }
+
+        .msg.bot .msg-bubble {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 4px 14px 14px 14px;
+            color: var(--text);
+        }
+
+        .msg.user .msg-bubble {
+            background: var(--accent);
+            color: var(--bg);
+            border-radius: 14px 4px 14px 14px;
+        }
+
+        .msg-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--accent2);
+            margin-top: 7px;
+            flex-shrink: 0
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 4px;
+            padding: 2px 0
+        }
+
+        .typing-dots span {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--text3);
+            animation: typDot 1.2s ease-in-out infinite
+        }
+
+        .typing-dots span:nth-child(2) {
+            animation-delay: .2s
+        }
+
+        .typing-dots span:nth-child(3) {
+            animation-delay: .4s
+        }
+
+        @keyframes typDot {
+
+            0%,
+            60%,
+            100% {
+                transform: translateY(0)
+            }
+
+            30% {
+                transform: translateY(-5px)
+            }
+        }
+
+        /* API Key Panel */
+        .api-panel {
+            padding: 16px 20px;
+            border-top: 1px solid var(--border);
+            background: color-mix(in srgb, var(--accent) 5%, transparent);
+        }
+
+        .api-panel-label {
+            font-size: .65rem;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: var(--accent2);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .api-status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #e07a5f;
+            flex-shrink: 0;
+            transition: background .3s
+        }
+
+        .api-status-dot.active {
+            background: #7ec8a4
+        }
+
+        .api-key-row {
+            display: flex;
+            gap: 8px
+        }
+
+        .api-key-row input {
+            flex: 1;
+            background: var(--surface2);
+            border: 1px solid var(--border2);
+            border-radius: 8px;
+            padding: 9px 12px;
+            color: var(--text);
+            font-size: .78rem;
+            font-family: 'Jost', sans-serif;
+            outline: none;
+            transition: border-color .3s;
+        }
+
+        .api-key-row input::placeholder {
+            color: var(--text3)
+        }
+
+        .api-key-row input:focus {
+            border-color: var(--accent)
+        }
+
+        .api-key-btn {
+            padding: 9px 14px;
+            border-radius: 8px;
+            background: var(--accent);
+            border: none;
+            cursor: none;
+            color: var(--bg);
+            font-size: .72rem;
+            font-family: 'Jost', sans-serif;
+            letter-spacing: .05em;
+            transition: background .3s, transform .2s;
+            white-space: nowrap;
+        }
+
+        .api-key-btn:hover {
+            transform: scale(1.04)
+        }
+
+        .api-hint {
+            font-size: .63rem;
+            color: var(--text3);
+            margin-top: 7px
+        }
+
+        .api-hint a {
+            color: var(--accent);
+            text-decoration: none
+        }
+
+        .api-hint a:hover {
+            text-decoration: underline
+        }
+
+        .chat-input-area {
+            padding: 14px 18px;
+            display: flex;
+            gap: 9px;
+            align-items: center;
+            border-top: 1px solid var(--border);
+        }
+
+        .chat-input-area input {
+            flex: 1;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            padding: 11px 16px;
+            color: var(--text);
+            font-size: .82rem;
+            font-family: 'Jost', sans-serif;
+            outline: none;
+            transition: border-color .3s, background .3s;
+        }
+
+        .chat-input-area input::placeholder {
+            color: var(--text3)
+        }
+
+        .chat-input-area input:focus {
+            border-color: var(--accent);
+            background: var(--surface2)
+        }
+
+        .send-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: var(--accent);
+            border: none;
+            cursor: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform .2s, background .3s;
+            flex-shrink: 0;
+        }
+
+        .send-btn:hover {
+            transform: scale(1.1)
+        }
+
+        .send-btn svg {
+            width: 15px;
+            height: 15px;
+            color: var(--bg)
+        }
+
+        /* ---- REVEAL ---- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity .7s ease, transform .7s ease
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0)
+        }
+
+        .rd1 {
+            transition-delay: .1s
+        }
+
+        .rd2 {
+            transition-delay: .2s
+        }
+
+        .rd3 {
+            transition-delay: .3s
+        }
+
+        .rd4 {
+            transition-delay: .4s
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(22px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0
+            }
+
+            to {
+                opacity: 1
+            }
+        }
+
+        /* ---- RESPONSIVE ---- */
+        @media(max-width:900px) {
+            #hero {
+                grid-template-columns: 1fr;
+                padding-bottom: 0
+            }
+
+            .hero-right {
+                height: 50vh;
+                width: 100%
+            }
+
+            .hero-right::after {
+                background: linear-gradient(to bottom, var(--bg) 0%, transparent 30%)
+            }
+
+            .cards-grid,
+            .kuliner-grid {
+                grid-template-columns: 1fr 1fr
+            }
+
+            .budaya-grid {
+                grid-template-columns: 1fr
+            }
+
+            .budaya-card {
+                grid-template-columns: 160px 1fr
+            }
+
+            nav {
+                padding: 0 24px
+            }
+
+            nav ul {
+                display: none
+            }
+
+            .section-wrap {
+                padding: 80px 24px
+            }
+
+            .hero-left {
+                padding: 80px 24px 40px
+            }
+
+            footer {
+                padding: 40px 24px
+            }
+        }
+
+        @media(max-width:580px) {
+
+            .cards-grid,
+            .kuliner-grid {
+                grid-template-columns: 1fr
+            }
+
+            #tentang .grid {
+                grid-template-columns: 1fr
+            }
+
+            .budaya-card {
+                grid-template-columns: 1fr;
+                grid-template-rows: 160px auto
+            }
+
+            #chat-window {
+                width: calc(100vw - 32px);
+                right: 16px
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="cur" id="cur">
+        <div class="cur-dot"></div>
+    </div>
+    <div class="cur-ring" id="curRing"></div>
+
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+
+    <!-- NAV -->
+    <nav>
+        <a href="#" class="nav-logo">Gorontalo<small>Serambi Madinah</small></a>
+        <ul>
+            <li><a href="#tentang">Tentang</a></li>
+            <li><a href="#wisata">Wisata</a></li>
+            <li><a href="#budaya">Budaya</a></li>
+            <li><a href="#kuliner">Kuliner</a></li>
+            <li><a href="#peta">Peta</a></li>
+        </ul>
+        <div class="nav-right">
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle tema">
+                <div class="theme-icons">
+                    <span class="icon-moon">🌙</span>
+                    <span class="icon-sun">☀️</span>
+                </div>
+            </button>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section id="hero">
+        <div class="hero-left">
+            <p class="hero-eyebrow">Provinsi Gorontalo, Sulawesi — Indonesia</p>
+            <h1 class="hero-title">Tanah<br><em>Serambi</em><br>Madinah</h1>
+            <p class="hero-desc">Menapaki pesona alam, kedalaman budaya, dan kekayaan tradisi Gorontalo — provinsi muda
+                yang menyimpan warisan peradaban Islam tertua di Sulawesi.</p>
+            <div class="hero-btns">
+                <a href="#wisata" class="btn-p">Jelajahi Wisata</a>
+                <a href="#budaya" class="btn-o">Kenali Budaya</a>
+            </div>
+            <div class="scroll-ind">
+                <span>Gulir ke bawah</span>
+                <div class="scroll-line"></div>
+            </div>
+        </div>
+        <div class="hero-right">
+            <img src="https://images.unsplash.com/photo-1586348943529-beaae6c28db9?w=1400&q=85&fit=crop"
+                alt="Pantai Gorontalo" loading="eager" />
+        </div>
+    </section>
+
+    <!-- TENTANG -->
+    <section id="tentang">
+        <div class="section-wrap">
+            <p class="section-kicker reveal">Tentang Gorontalo</p>
+            <h2 class="section-h reveal">Provinsi Muda dengan<br><em>Sejarah Panjang</em></h2>
+            <div class="divider reveal"></div>
+            <div class="grid" style="display:grid;grid-template-columns:1.2fr 1fr;gap:48px;align-items:start">
+                <div class="reveal">
+                    <p class="about-text">Gorontalo adalah provinsi ke-32 Indonesia yang resmi terbentuk pada 5 Desember
+                        2000, memisahkan diri dari Provinsi Sulawesi Utara. Terletak di bagian utara Sulawesi, provinsi
+                        ini dikenal dengan julukan <em style="color:var(--accent)">"Serambi Madinah"</em> karena kuatnya
+                        nilai-nilai Islam yang mengakar dalam kehidupan masyarakatnya.</p>
+                    <p class="about-text" style="margin-top:14px">Kota Gorontalo, sebagai ibu kotanya, merupakan salah
+                        satu kota tertua di Sulawesi dengan sejarah perdagangan rempah dan penyebaran Islam yang panjang
+                        sejak abad ke-15. Alam Gorontalo merentang dari pegunungan hijau, danau-danau indah, hingga
+                        pantai berpasir putih yang memukau dengan keanekaragaman hayati laut yang kaya.</p>
+                    <p class="about-text" style="margin-top:14px">Masyarakat Gorontalo dikenal dengan semboyan <em
+                            style="color:var(--accent)">Adat bersendikan Syara', Syara' bersendikan Kitabullah</em> —
+                        menggambarkan kuatnya harmoni antara adat istiadat dan ajaran Islam dalam kehidupan sehari-hari.
+                    </p>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat gc reveal rd1">
+                        <div class="stat-n">1,16 Jt</div>
+                        <div class="stat-l">Penduduk</div>
+                    </div>
+                    <div class="stat gc reveal rd2">
+                        <div class="stat-n">12.435</div>
+                        <div class="stat-l">km² Luas</div>
+                    </div>
+                    <div class="stat gc reveal rd3">
+                        <div class="stat-n">6</div>
+                        <div class="stat-l">Kab/Kota</div>
+                    </div>
+                    <div class="stat gc reveal rd4">
+                        <div class="stat-n">2000</div>
+                        <div class="stat-l">Tahun Berdiri</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WISATA -->
+    <section id="wisata" style="background:var(--bg2);transition:background var(--transition)">
+        <div class="section-wrap">
+            <p class="section-kicker reveal">Destinasi Unggulan</p>
+            <h2 class="section-h reveal">Keindahan <em>Alam & Wisata</em></h2>
+            <div class="divider reveal"></div>
+            <div class="cards-grid">
+                <!-- Danau Limboto -->
+                <div class="card gc reveal">
+                    <div class="card-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1501854140801-50d01698950b?w=600&q=80&fit=crop"
+                            alt="Danau Limboto" loading="lazy" />
+                        <div class="card-img-overlay"></div>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-tag">Danau & Alam</p>
+                        <h3 class="card-title">Danau Limboto</h3>
+                        <p class="card-desc">Danau terbesar di Gorontalo, habitat ribuan burung migran. Pemandangan
+                            matahari terbenam di atas permukaan airnya selalu memesona dan menjadi ikon provinsi.</p>
+                    </div>
+                </div>
+                <!-- Pantai Olele -->
+                <div class="card gc reveal rd1">
+                    <div class="card-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=600&q=80&fit=crop"
+                            alt="Pantai Olele" loading="lazy" />
+                        <div class="card-img-overlay"></div>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-tag">Bahari & Selam</p>
+                        <h3 class="card-title">Pantai Olele</h3>
+                        <p class="card-desc">Surga bawah laut dengan terumbu karang alami dan biota laut yang melimpah.
+                            Destinasi snorkeling dan diving terbaik di kawasan Teluk Tomini.</p>
+                    </div>
+                </div>
+                <!-- Pantai Bolihutuo -->
+                <div class="card gc reveal rd2">
+                    <div class="card-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=80&fit=crop"
+                            alt="Pantai Bolihutuo" loading="lazy" />
+                        <div class="card-img-overlay"></div>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-tag">Pantai & Bahari</p>
+                        <h3 class="card-title">Pantai Bolihutuo</h3>
+                        <p class="card-desc">Hamparan pasir putih bersih dengan air laut biru jernih di Kabupaten
+                            Boalemo. Salah satu pantai paling eksotis dan masih sangat alami di Sulawesi.</p>
+                    </div>
+                </div>
+                <!-- Benteng Otanaha -->
+                <div class="card gc reveal">
+                    <div class="card-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1585011664466-b7bbe92f34ef?w=600&q=80&fit=crop"
+                            alt="Benteng Otanaha" loading="lazy" />
+                        <div class="card-img-overlay"></div>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-tag">Sejarah & Budaya</p>
+                        <h3 class="card-title">Benteng Otanaha</h3>
+                        <p class="card-desc">Benteng bersejarah abad ke-15 warisan bangsa Portugis di atas bukit. Dari
+                            sini, pemandangan Danau Limboto dan Kota Gorontalo membentang sempurna.</p>
+                    </div>
+                </div>
+                <!-- TN Bogani -->
+                <div class="card gc reveal rd1">
+                    <div class="card-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1448375240586-882707db888b?w=600&q=80&fit=crop"
+                            alt="Taman Nasional Bogani" loading="lazy" />
+                        <div class="card-img-overlay"></div>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-tag">Ekowisata</p>
+                        <h3 class="card-title">TN Bogani Nani Wartabone</h3>
+                        <p class="card-desc">Habitat maleo dan anoa, hewan endemik Sulawesi yang langka. Hutan tropis
+                            perawan dengan keanekaragaman hayati yang luar biasa dan jalur trekking menantang.</p>
+                    </div>
+                </div>
+                <!-- Lombongo -->
+                <div class="card gc reveal rd2">
+                    <div class="card-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1565689157206-0fddef7589a2?w=600&q=80&fit=crop"
+                            alt="Air Terjun Lombongo" loading="lazy" />
+                        <div class="card-img-overlay"></div>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-tag">Air Terjun</p>
+                        <h3 class="card-title">Air Terjun Lombongo</h3>
+                        <p class="card-desc">Air terjun tersembunyi di kawasan Suwawa yang menawarkan kesegaran alami di
+                            tengah lebatnya hutan tropis. Perjalanan menuju lokasi adalah petualangan tersendiri.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BUDAYA -->
+    <section id="budaya">
+        <div class="section-wrap">
+            <p class="section-kicker reveal">Tradisi & Seni</p>
+            <h2 class="section-h reveal">Warisan Budaya <em>yang Lestari</em></h2>
+            <div class="divider reveal"></div>
+            <div class="budaya-grid">
+                <div class="budaya-card gc reveal">
+                    <div class="budaya-card-img">
+                        <img src="https://seringjalan.com/wp-content/uploads/2020/06/Tari_Saronde_LBKS_compressed-1024x683.jpg"
+                            alt="Tari Saronde" loading="lazy" />
+                    </div>
+                    <div class="budaya-card-body">
+                        <div class="budaya-icon">💃</div>
+                        <h3>Tari Saronde</h3>
+                        <p>Tarian tradisional yang dibawakan dalam upacara pernikahan adat Gorontalo. Gerakannya yang
+                            lembut dan anggun mencerminkan kehalusan budi pekerti masyarakat Gorontalo yang dijunjung
+                            tinggi.</p>
+                    </div>
+                </div>
+                <div class="budaya-card gc reveal rd1">
+                    <div class="budaya-card-img">
+                        <img src="https://idsb.tmgrup.com.tr/ly/uploads/images/2021/08/11/135593.jpg" alt="Dikili"
+                            loading="lazy" />
+                    </div>
+                    <div class="budaya-card-body">
+                        <div class="budaya-icon">🎶</div>
+                        <h3>Dikili</h3>
+                        <p>Seni nyanyian berisi pujian dan zikir Islam yang dilantunkan secara bersamaan dalam acara
+                            adat dan perayaan keagamaan. Dikili menjadi simbol kuatnya nilai Islam dalam budaya
+                            Gorontalo.</p>
+                    </div>
+                </div>
+                <div class="budaya-card gc reveal rd2">
+                    <div class="budaya-card-img">
+                        <img src="https://mapelweb.com/wp-content/uploads/2020/07/Ciri-Khas-Baju-Pengantin-Adat-Gorontalo-768x481.jpg"
+                            alt="Pakaian Adat Biliu" loading="lazy" />
+                    </div>
+                    <div class="budaya-card-body">
+                        <div class="budaya-icon">👘</div>
+                        <h3>Biliu & Makuta</h3>
+                        <p>Pakaian adat kebesaran Gorontalo yang digunakan pada pernikahan dan acara adat resmi. Dihiasi
+                            sulaman benang emas yang mewah, mencerminkan keagungan dan identitas budaya leluhur.</p>
+                    </div>
+                </div>
+                <div class="budaya-card gc reveal rd3">
+                    <div class="budaya-card-img">
+                        <img src="https://th.bing.com/th/id/OVP.i9ZCswi_-TmvfSRpyDvDdgEsCo?w=243&h=136&c=7&rs=1&qlt=70&o=7&dpr=1.3&pid=2.1&rm=3"
+                            alt="Rumah Adat" loading="lazy" />
+                    </div>
+                    <div class="budaya-card-body">
+                        <div class="budaya-icon">🏠</div>
+                        <h3>Bandayo Poboide</h3>
+                        <p>Rumah adat tradisional Gorontalo yang berfungsi sebagai balai pertemuan dan musyawarah
+                            masyarakat. Arsitekturnya yang khas mencerminkan kearifan lokal dan filosofi hidup bersama
+                            yang harmonis.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- KULINER -->
+    <section id="kuliner" style="background:var(--bg2);transition:background var(--transition)">
+        <div class="section-wrap">
+            <p class="section-kicker reveal">Kuliner Khas</p>
+            <h2 class="section-h reveal">Cita Rasa <em>Gorontalo</em></h2>
+            <div class="divider reveal"></div>
+            <div class="kuliner-grid">
+                <div class="food-card gc reveal">
+                    <div class="food-img-wrap">
+                        <img src="https://initu.id/wp-content/uploads/2018/06/Binte-Biluhuta-makanan-khas-dari-Gorontalo.jpg"
+                            alt="Binte Biluhuta" loading="lazy" />
+                        <div class="food-img-overlay"></div>
+                    </div>
+                    <div class="food-body">
+                        <h3>Binte Biluhuta</h3>
+                        <p>Sup jagung segar berpadu ikan dan udang khas Gorontalo. Perpaduan rasa gurih dan segar yang
+                            ikonik dan wajib dicoba setiap pengunjung.</p>
+                    </div>
+                </div>
+                <div class="food-card gc reveal rd1">
+                    <div class="food-img-wrap">
+                        <img src="https://ecs7.tokopedia.net/blog-tokopedia-com/uploads/2021/04/0.-Resep-Ayam-Rica-Rica-Pedas-dan-Nikmat.jpg"
+                            alt="Ayam Rica-Rica" loading="lazy" />
+                        <div class="food-img-overlay"></div>
+                    </div>
+                    <div class="food-body">
+                        <h3>Ayam Rica-Rica</h3>
+                        <p>Ayam berbumbu rempah pedas khas Gorontalo dengan cita rasa yang kuat dan aroma yang menggugah
+                            selera. Sajian yang tak pernah absen di meja makan.</p>
+                    </div>
+                </div>
+                <div class="food-card gc reveal rd2">
+                    <div class="food-img-wrap">
+                        <img src="https://img-global.cpcdn.com/recipes/7f6edcd8b3e26f94/1200x630cq70/photo.jpg"
+                            alt="Kepiting" loading="lazy" />
+                        <div class="food-img-overlay"></div>
+                    </div>
+                    <div class="food-body">
+                        <h3>Kepiting Hitam</h3>
+                        <p>Kepiting segar perairan Gorontalo dimasak dengan bumbu hitam kaya rempah. Hidangan laut
+                            premium yang menjadi kebanggaan kuliner lokal.</p>
+                    </div>
+                </div>
+                <div class="food-card gc reveal">
+                    <div class="food-img-wrap">
+                        <img src="https://www.rumahmesin.com/wp-content/uploads/2020/12/nasi-jagung-3-700x525.jpg"
+                            alt="Nasi Jagung" loading="lazy" />
+                        <div class="food-img-overlay"></div>
+                    </div>
+                    <div class="food-body">
+                        <h3>Nasi Jagung</h3>
+                        <p>Makanan pokok tradisional masyarakat Gorontalo. Perpaduan jagung dan nasi menciptakan tekstur
+                            khas yang unik dengan nilai gizi yang tinggi.</p>
+                    </div>
+                </div>
+                <div class="food-card gc reveal rd1">
+                    <div class="food-img-wrap">
+                        <img src="https://cdn1-production-images-kly.akamaized.net/5tkGY9MiqqtZhGtp12iPPWZTwLg=/640x360/smart/filters:quality(75):strip_icc():format(webp)/kly-media-production/medias/4153416/original/077704400_1662797620-mengenal-tili-aya-makanan-khas-gorontalo-yang-wajib-disajikan-di-setiap-perayaan80_700.jpg"
+                            alt="Kue Tiliaya" loading="lazy" />
+                        <div class="food-img-overlay"></div>
+                    </div>
+                    <div class="food-body">
+                        <h3>Kue Tiliaya</h3>
+                        <p>Kue tradisional dari tepung beras yang lembut dan manis. Selalu hadir dalam acara adat dan
+                            perayaan hari besar sebagai simbol kebersamaan.</p>
+                    </div>
+                </div>
+                <div class="food-card gc reveal rd2">
+                    <div class="food-img-wrap">
+                        <img src="https://img-global.cpcdn.com/recipes/0fc2fa260cdfe713/1200x630cq70/photo.jpg"
+                            alt="Sate Tuna" loading="lazy" />
+                        <div class="food-img-overlay"></div>
+                    </div>
+                    <div class="food-body">
+                        <h3>Sate Tuna</h3>
+                        <p>Potongan ikan tuna segar dibakar sempurna dengan bumbu khas Gorontalo. Disajikan dengan saus
+                            kacang pedas yang memanjakan lidah.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PETA -->
+    <section id="peta">
+        <div class="section-wrap">
+            <p class="section-kicker reveal">Lokasi</p>
+            <h2 class="section-h reveal">Di Mana <em>Gorontalo?</em></h2>
+            <div class="divider reveal"></div>
+            <div class="map-wrap gc reveal">
+                <iframe
+                    src="https://www.openstreetmap.org/export/embed.html?bbox=121.5%2C0.3%2C123.5%2C1.1&layer=mapnik&marker=0.694%2C122.472"
+                    loading="lazy" allowfullscreen title="Peta Gorontalo"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>© 2025 <span>Gorontalo</span> — Serambi Madinah Indonesia</p>
+        <p>Dibuat dengan <span>♥</span> · AI Chat powered by <span>Gemini</span></p>
+    </footer>
+
+    <!-- CHAT FAB -->
+    <button id="chat-fab" onclick="toggleChat()" aria-label="Buka chat">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+        </svg>
+        <div class="fab-badge" id="fabBadge"></div>
+    </button>
+
+    <!-- CHAT WINDOW -->
+    <div id="chat-window">
+        <div class="chat-header">
+            <div class="chat-header-l">
+                <div class="chat-av">🤖</div>
+                <div>
+                    <div class="chat-hname">GoronBot AI</div>
+                    <div class="chat-hstatus" id="chatStatus">Siap membantu</div>
+                </div>
+            </div>
+            <button class="chat-close" onclick="toggleChat()">✕</button>
+        </div>
+
+        <div class="chat-messages" id="chatMessages">
+            <div class="msg bot">
+                <div class="msg-dot"></div>
+                <div class="msg-bubble">Halo! Saya <strong>GoronBot</strong> 👋<br>Tanya apa saja tentang Gorontalo —
+                    wisata, budaya, kuliner, atau sejarahnya. Masukkan Gemini API Key di bawah untuk mulai.</div>
+            </div>
+        </div>
+
+        <!-- API Key Panel -->
+        <div class="api-panel">
+            <div class="api-panel-label">
+                <div class="api-status-dot" id="apiDot"></div>
+                Gemini API Key
+            </div>
+            <div class="api-key-row">
+                <input type="password" id="apiKeyInput" placeholder="Masukkan API key…" autocomplete="off" />
+                <button class="api-key-btn" onclick="saveApiKey()">Simpan</button>
+            </div>
+            <p class="api-hint">
+                Dapatkan key gratis di
+                <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener">aistudio.google.com</a>
+                · Key disimpan di browser kamu.
+            </p>
+        </div>
+
+        <div class="chat-input-area">
+            <input type="text" id="chatInput" placeholder="Tanya tentang Gorontalo…"
+                onkeydown="if(event.key==='Enter')sendMessage()" />
+            <button class="send-btn" onclick="sendMessage()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <line x1="22" y1="2" x2="11" y2="13" />
+                    <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // ===== CURSOR =====
+        const cur = document.getElementById('cur');
+        const ring = document.getElementById('curRing');
+        let mx = 0, my = 0, rx = 0, ry = 0;
+        document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cur.style.left = mx + 'px'; cur.style.top = my + 'px' });
+        (function anim() { rx += (mx - rx) * .1; ry += (my - ry) * .1; ring.style.left = rx + 'px'; ring.style.top = ry + 'px'; requestAnimationFrame(anim) })();
+
+        // ===== THEME TOGGLE =====
+        const html = document.documentElement;
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        html.setAttribute('data-theme', savedTheme);
+
+        document.getElementById('themeToggle').addEventListener('click', () => {
+            const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', next);
+            localStorage.setItem('theme', next);
+        });
+
+        // ===== SCROLL REVEAL =====
+        const obs = new IntersectionObserver(entries => {
+            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+        // ===== CHAT =====
+        let chatOpen = false;
+        let geminiKey = 'AIzaSyD_8ymHPPSPDfGjCrWyzx3YViNNaEeWzDE';
+        let history = [];
+
+        function updateApiStatus(active) {
+            document.getElementById('apiDot').classList.toggle('active', active);
+            document.getElementById('chatStatus').textContent = active ? '● Terhubung ke Gemini' : 'Siap membantu';
+        }
+
+        // Key sudah hardcoded — langsung aktif
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('apiKeyInput').value = geminiKey;
+            updateApiStatus(true);
+        });
+
+        function saveApiKey() {
+            const val = document.getElementById('apiKeyInput').value.trim();
+            geminiKey = val;
+            localStorage.setItem('gemini_key', val);
+            if (val) {
+                updateApiStatus(true);
+                addMsg('✅ API Key tersimpan! Silakan mulai tanya tentang Gorontalo.', 'bot');
+            } else {
+                updateApiStatus(false);
+                addMsg('API Key dihapus.', 'bot');
+            }
+        }
+
+        function toggleChat() {
+            chatOpen = !chatOpen;
+            document.getElementById('chat-window').classList.toggle('open', chatOpen);
+            document.getElementById('fabBadge').style.display = chatOpen ? 'none' : '';
+            if (chatOpen) setTimeout(() => document.getElementById('chatInput').focus(), 400);
+        }
+
+        function addMsg(text, role) {
+            const box = document.getElementById('chatMessages');
+            const wrap = document.createElement('div');
+            wrap.className = 'msg ' + role;
+            if (role === 'bot') wrap.innerHTML = `<div class="msg-dot"></div><div class="msg-bubble">${text}</div>`;
+            else wrap.innerHTML = `<div class="msg-bubble">${text}</div>`;
+            box.appendChild(wrap);
+            box.scrollTop = box.scrollHeight;
+            return wrap;
+        }
+
+        function showTyping() {
+            const box = document.getElementById('chatMessages');
+            const wrap = document.createElement('div');
+            wrap.className = 'msg bot'; wrap.id = 'typing';
+            wrap.innerHTML = `<div class="msg-dot"></div><div class="msg-bubble"><div class="typing-dots"><span></span><span></span><span></span></div></div>`;
+            box.appendChild(wrap); box.scrollTop = box.scrollHeight;
+        }
+        function removeTyping() { const t = document.getElementById('typing'); if (t) t.remove(); }
+
+        const SYSTEM = `Kamu adalah GoronBot, asisten wisata virtual yang ramah, cerdas, dan berpengetahuan luas tentang Provinsi Gorontalo, Indonesia. Gunakan bahasa Indonesia yang sopan, hangat, dan informatif. Berikan jawaban yang menarik, akurat, dan berguna tentang wisata, budaya, kuliner, sejarah, adat istiadat, geografi, dan kehidupan di Gorontalo. Jawab dengan padat dan menarik. Gunakan emoji sesekali untuk membuat percakapan lebih hidup. Jika pertanyaan di luar topik Gorontalo, arahkan kembali dengan ramah.`;
+
+        async function sendMessage() {
+            const inp = document.getElementById('chatInput');
+            const text = inp.value.trim();
+            if (!text) return;
+            inp.value = '';
+            addMsg(text, 'user');
+            history.push({ role: 'user', parts: [{ text }] });
+
+            if (!geminiKey) {
+                addMsg('⚠️ Silakan masukkan Gemini API Key terlebih dahulu di panel di atas ya!', 'bot');
+                return;
+            }
+
+            showTyping();
+            document.getElementById('chatStatus').textContent = '● Mengetik…';
+
+            try {
+                const res = await fetch(
+                    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiKey}`,
+                    {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            system_instruction: { parts: [{ text: SYSTEM }] },
+                            contents: history,
+                            generationConfig: { maxOutputTokens: 600, temperature: 0.85 }
+                        })
+                    }
+                );
+                const data = await res.json();
+                removeTyping();
+                document.getElementById('chatStatus').textContent = '● Terhubung ke Gemini';
+
+                if (data.candidates?.[0]) {
+                    const reply = data.candidates[0].content.parts[0].text;
+                    addMsg(reply.replace(/\n/g, '<br>'), 'bot');
+                    history.push({ role: 'model', parts: [{ text: reply }] });
+                    if (history.length > 20) history = history.slice(-20);
+                } else if (data.error) {
+                    addMsg(`❌ Error: ${data.error.message}`, 'bot');
+                    updateApiStatus(false);
+                }
+            } catch (err) {
+                removeTyping();
+                addMsg('❌ Gagal terhubung. Periksa API key dan koneksi internet kamu.', 'bot');
+                document.getElementById('chatStatus').textContent = 'Koneksi gagal';
+            }
+        }
+    </script>
+</body>
+
+</html>
